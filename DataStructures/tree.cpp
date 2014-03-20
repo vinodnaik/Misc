@@ -48,10 +48,10 @@ public:
 };
 
 Node * maketree(class Node *root,int x){
-  Node *temp=new Node(x);
+  Node *temp=new Node(x);      //This is not good. Adds an extra call to malloc and free is not implemented yet. Adding it inside if is causing problems.Investigate
   Node *p,*q;
   if(root==0){
-    //temp=new Node (x);
+    //temp=new Node (x); 
     return temp;
   }
   //return temp;
