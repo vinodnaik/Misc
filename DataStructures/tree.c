@@ -1,6 +1,10 @@
 #include<stdio.h>
 #include<stdlib.h>
 
+/*
+A bare bone version of binary tree without duplicates in C. 
+*/
+
 typedef struct tree{
 	int x;
 	struct tree *right;
