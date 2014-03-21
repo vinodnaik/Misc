@@ -1,10 +1,6 @@
 #include<iostream>
 #include<new>
 
-/*
-Tried implementing a binary tree without duplicates in C++. Well its not complete and needs a lot more refinement. Will add them later.
-*/
-
 using namespace std;
 
 class Node{
@@ -48,28 +44,28 @@ public:
 };
 
 Node * maketree(class Node *root,int x){
-  Node *temp=new Node(x);      //This is not good. Adds an extra call to malloc and free is not implemented yet. Adding it inside if is causing problems.Investigate
+  Node *temp=new Node(x);
   Node *p,*q;
   if(root==0){
-    //temp=new Node (x); 
+    //temp=new Node (x);
     return temp;
   }
   //return temp;
   p=q=root;
-  while(p!=0 && p->accessData() != x){
-    q=p;
+  while(x != p->accessData() && q!=0){
+    p=q;
     if(x < p->accessData())
-      p=p->getLeftTree();
+      q=p->getLeftTree();
     else
-      p=p->getRightTree();
+      q=p->getRightTree();
   }
-  if(x < q->accessData())
-    q->makeLeftTree(x);
-  else if(x > q->accessData())
-    q->makeRightTree(x);
-  else if(p->accessData()==x)
+  if(p->accessData()==x)
     cout<<"Duplicate"<<x<<endl;
-
+  else if(x < p->accessData())
+    p->makeLeftTree(x);
+  else
+    p->makeRightTree(x);
+ 
   return root;
 }
 
