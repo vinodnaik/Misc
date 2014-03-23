@@ -44,10 +44,10 @@ public:
 };
 
 Node * maketree(class Node *root,int x){
-  Node *temp=new Node(x);
+  Node *temp;//=new Node(x);
   Node *p,*q;
   if(root==0){
-    //temp=new Node (x);
+    temp=new Node (x);
     return temp;
   }
   //return temp;
