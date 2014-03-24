@@ -3,10 +3,12 @@
 
 
 typedef struct tree{
-	int x;
-	struct tree *right;
-	struct tree *left;
+  int x;
+  struct tree *right;
+  struct tree *left;
 } tree_node_t;
+
+//static tree_node_t nodeCount;
 
 tree_node_t * maketree(int );
 

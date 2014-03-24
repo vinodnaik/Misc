@@ -10,6 +10,7 @@ A bare bone version of binary tree without duplicates in C.
 tree_node_t * maketree(int num){
 	tree_node_t *head;
 	head=malloc(sizeof(struct tree));
+	//head->nodeCount++;
 	head->x=num;
 	head->right=NULL;
 	head->left=NULL;
