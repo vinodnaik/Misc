@@ -1,18 +1,14 @@
 #include<stdio.h>
 #include<stdlib.h>
 
+#include"tree.h"
+
 /*
 A bare bone version of binary tree without duplicates in C. 
 */
 
-typedef struct tree{
-	int x;
-	struct tree *right;
-	struct tree *left;
-}node;
-
-node * maketree(int num){
-	node *head;
+tree_node_t * maketree(int num){
+	tree_node_t *head;
 	head=malloc(sizeof(struct tree));
 	head->x=num;
 	head->right=NULL;
@@ -20,7 +16,7 @@ node * maketree(int num){
 	return head;
 }
 
-void preorder(node *head){
+void preorder(tree_node_t *head){
 	if(head==NULL)
 		return ;
 	printf("%d\t",head->x);
@@ -28,7 +24,7 @@ void preorder(node *head){
 	preorder(head->right);
 }
 
-void inorder(node *head){
+void inorder(tree_node_t *head){
 	if(head==NULL)
 		return;
 	inorder(head->left);
@@ -36,7 +32,7 @@ void inorder(node *head){
 	inorder(head->right);
 }
 
-void postorder(node *head){
+void postorder(tree_node_t *head){
 	if(head==NULL)
 		return;
 	postorder(head->left);
@@ -46,32 +42,31 @@ void postorder(node *head){
 
 int main(){
 	int a[]={14,15,4,9,7,18,3,5,16,4,20,17,9,14,5};
-	int n,i,num=5;
-	node *p=NULL,*q=NULL;
-	node *root=NULL;	//maketree(a[0]);
+	int n,idx,num=5;
+	tree_node_t *p=NULL,*q=NULL;
+	tree_node_t *root=NULL;	//maketree(a[0]);
+
+	root=maketree(a[0]);
+
 	n=sizeof(a)/sizeof(int);
 	p=q=root;
-	for(i=0;i<n;i++){
-		//num=a[i];
+
+	for(idx=1;idx<n;idx++){
+		
 		p=q=root;
-		while(p!=NULL){
-			if(a[i] == p->x){
-				printf("Duplicate %d\n",a[i]);
-				break;
-			}
-			q=p;
-			if(a[i] < p->x)
-				p=p->left;
-			else
-				p=p->right;
+		while(a[idx]!= p->x && q!=NULL){
+		  p=q;
+		  if(a[idx] < p->x)
+		    q=p->left;
+		  else
+		    q=p->right;
 		}
-		if(q==NULL)
-			root=maketree(a[i]);
-		else 
-			if(a[i] < q->x)
-				q->left=maketree(a[i]);
-			else if(a[i] > q->x)
-				q->right=maketree(a[i]);
+		if(p->x == a[idx])
+		  printf("Duplicate %d\n",a[idx]);
+		else if(a[idx] < p->x)
+		  p->left=maketree(a[idx]);
+		else
+		  p->right=maketree(a[idx]);
 	}
 	preorder(root);
 	printf("\n");
