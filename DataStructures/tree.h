@@ -8,12 +8,14 @@ typedef struct tree{
 	struct tree *left;
 } tree_node_t;
 
-tree_node_t * maketree(int num);
+tree_node_t * maketree(int );
 
-void preorder(tree_node_t *head);
+void preorder(tree_node_t *);
 
-void inorder(tree_node_t *head);
+void inorder(tree_node_t *);
 
-void postorder(tree_node_t *head);
+void postorder(tree_node_t *);
+
+tree_node_t * buildTree(int [],int n);
 
 #endif

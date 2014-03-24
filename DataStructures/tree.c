@@ -40,34 +40,43 @@ void postorder(tree_node_t *head){
 	printf("%d\t",head->x);
 }
 
+tree_node_t * buildTree(int a[],int n){
+  int idx;
+  tree_node_t *p=NULL,*q=NULL;
+  tree_node_t *root=NULL;
+  
+  if(root==NULL && n!=0)
+    root=maketree(a[0]);
+
+  p=q=root;
+  
+  for(idx=1;idx<n;idx++){
+    
+    p=q=root;
+    while(a[idx]!= p->x && q!=NULL){
+      p=q;
+      if(a[idx] < p->x)
+	q=p->left;
+      else
+	q=p->right;
+    }
+    if(p->x == a[idx])
+      printf("Duplicate %d\n",a[idx]);
+    else if(a[idx] < p->x)
+      p->left=maketree(a[idx]);
+    else
+      p->right=maketree(a[idx]);
+  }
+
+  return root;
+}
+
 int main(){
 	int a[]={14,15,4,9,7,18,3,5,16,4,20,17,9,14,5};
-	int n,idx,num=5;
-	tree_node_t *p=NULL,*q=NULL;
-	tree_node_t *root=NULL;	//maketree(a[0]);
+	tree_node_t *root=NULL;
 
-	root=maketree(a[0]);
+	root=buildTree(a,sizeof(a)/sizeof(int));
 
-	n=sizeof(a)/sizeof(int);
-	p=q=root;
-
-	for(idx=1;idx<n;idx++){
-		
-		p=q=root;
-		while(a[idx]!= p->x && q!=NULL){
-		  p=q;
-		  if(a[idx] < p->x)
-		    q=p->left;
-		  else
-		    q=p->right;
-		}
-		if(p->x == a[idx])
-		  printf("Duplicate %d\n",a[idx]);
-		else if(a[idx] < p->x)
-		  p->left=maketree(a[idx]);
-		else
-		  p->right=maketree(a[idx]);
-	}
 	preorder(root);
 	printf("\n");
 	inorder(root);
