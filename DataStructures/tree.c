@@ -72,6 +72,28 @@ tree_node_t * buildTree(int a[],int n){
   return root;
 }
 
+//The iterative way to delete the smallest node from a BST
+tree_node_t * delete_smallest(tree_node_t *head){
+  tree_node_t *temp,*root;
+  temp=root=head;
+  if(head->left==NULL){
+    temp=head->right;
+    free(head);
+    return head->right;
+  }
+
+  while(head->left != NULL){
+    temp=head;
+    head=head->left;
+  }
+
+  printf("Smallest no is %d\n",head->x);
+  free(head);
+  temp->left=NULL;
+  return root;
+}
+
+
 int main(){
 	int a[]={14,15,4,9,7,18,3,5,16,4,20,17,9,14,5};
 	tree_node_t *root=NULL;
@@ -84,5 +106,8 @@ int main(){
 	printf("\n");
 	postorder(root);
 	printf("\n");
+
+	root=delete_smallest(root);
+	inorder(root);
 }
 
