@@ -72,16 +72,25 @@ tree_node_t * buildTree(int a[],int n){
   return root;
 }
 
-//The iterative way to delete the smallest node from a BST
+//The iterative way to delete the smallest node from a BST. The code also takes care
+//of the case when there is single left node or no node in a left tree. Also if the 
+//first left son is the smallest.
 tree_node_t * delete_smallest(tree_node_t *head){
   tree_node_t *temp,*root;
   temp=root=head;
+  //If there is no left tree
   if(head->left==NULL){
     temp=head->right;
     free(head);
     return head->right;
   }
-
+  //If the left son of the root is the smallest
+  else if(head->left->left==NULL){
+    temp=head->left;
+    head->left=head->left->right;
+    free(temp);
+    return root;
+  }
   while(head->left != NULL){
     temp=head;
     head=head->left;
@@ -95,19 +104,19 @@ tree_node_t * delete_smallest(tree_node_t *head){
 
 
 int main(){
-	int a[]={14,15,4,9,7,18,3,5,16,4,20,17,9,14,5};
-	tree_node_t *root=NULL;
-
-	root=buildTree(a,sizeof(a)/sizeof(int));
-
-	preorder(root);
-	printf("\n");
-	inorder(root);
-	printf("\n");
-	postorder(root);
-	printf("\n");
-
-	root=delete_smallest(root);
-	inorder(root);
+  int a[]={14,15,4,9,7,18,3,5,16,4,20,17,9,14,5};
+  tree_node_t *root=NULL;
+  
+  root=buildTree(a,sizeof(a)/sizeof(int));
+  
+  preorder(root);
+  printf("\n");
+  inorder(root);
+  printf("\n");
+  postorder(root);
+  printf("\n");
+  
+  root=delete_smallest(root);
+  inorder(root);
 }
 
