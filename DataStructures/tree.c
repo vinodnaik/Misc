@@ -78,9 +78,11 @@ tree_node_t * buildTree(int a[],int n){
 tree_node_t * delete_smallest(tree_node_t *head){
   tree_node_t *temp,*root;
   temp=root=head;
+
   //If there is no left tree
   if(head->left==NULL){
     temp=head->right;
+    printf("Smallest no is %d\n",head->x);
     free(head);
     return head->right;
   }
