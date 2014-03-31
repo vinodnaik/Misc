@@ -20,4 +20,6 @@ void postorder(tree_node_t *);
 
 tree_node_t * buildTree(int [],int n);
 
+tree_node_t * delete_smallest(tree_node_t *);
+
 #endif
