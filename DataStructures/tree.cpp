@@ -1,13 +1,22 @@
 #include<iostream>
 #include<new>
 
+/*
+A Binary search tree implementation in C++. Although not an efficient one. There 
+is significant overhead in traversing as the left and right pointers are made private 
+just to be in sync with the object oriented philosophy where data is private and methods 
+act on it. The stack grows when each node is traversed as the no of function calls 
+increase. The good design is making the left and right pointers public as they will be 
+heavily used. Or we can use a friend function but it gives access to private data.
+*/
+
 using namespace std;
 
 class Node{
 private:
   int data;
   static int nodeCount;
-public:
+  //public:
   class Node *left,*right;
 public:
   Node(){
@@ -28,6 +37,7 @@ public:
   Node * getRightTree();
   void makeLeftTree(int x);
   void makeRightTree(int x);
+  void displayTree();
 };
 
 int Node::nodeCount;
@@ -64,6 +74,14 @@ void Node:: makeRightTree(int x){
   right=nodePtr;
 }
 
+void Node::displayTree(){
+  if(this!=NULL){
+    this->getLeftTree()->displayTree();
+    cout<<this->accessData()<<"\t";
+    this->getRightTree()->displayTree();
+  }
+}
+    
 
 Node * maketree(class Node *root,int x){
   Node *temp;
@@ -91,13 +109,13 @@ Node * maketree(class Node *root,int x){
   return root;
 }
 
-void displayTreeInorder(Node *root){
-  if(root==0)
-    return;
-  displayTreeInorder(root->left);
-  cout<<root->accessData()<<"\t";
-  displayTreeInorder(root->right);
-}
+// void displayTreeInorder(Node *root){
+//   if(root==0)
+//     return;
+//   displayTreeInorder(root->left);
+//   cout<<root->accessData()<<"\t";
+//   displayTreeInorder(root->right);
+// }
 
 int main(){
   int a[]={14,15,4,9,7,18,3,5,16,4,20,17,9,14,5};
@@ -108,7 +126,7 @@ int main(){
   for(idx=0;idx<length;idx++)
     root=maketree(root,a[idx]);
 
-  displayTreeInorder(root);
+  root->displayTree();
 
   cout<<endl<<"No of nodes ="<<root->returnNodeCount()<<endl;
   return 0;
