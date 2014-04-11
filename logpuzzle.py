@@ -36,13 +36,24 @@ def read_urls(filename):
     exit(1)
   
   text=open(filename).read()
-  urls=re.findall(r'GET\s(\S+puzzle/)([\w-]+)\.jpg',text)
+  urls=re.findall(r'GET\s(\S+puzzle/)([\w-]+\.jpg)',text)
   for url in urls:
     final_url=server+url[0]+url[1]
     if url[1] not in hasht:
       hasht[url[1]]=final_url
-  return sorted(hasht.values())
-    
+  sorted_keys=sorted(hasht.keys(),key=sortfn)
+
+  url_list=[]
+  for url in sorted_keys:
+    url_list.append(hasht[url])
+
+  return url_list
+
+def sortfn(val):
+  tple=val.split('-')
+  if len(tple)>=3:
+    return tple[2]
+  return tple[1]
 
 def download_images(img_urls, dest_dir):
   """Given the urls already in the correct order, downloads
