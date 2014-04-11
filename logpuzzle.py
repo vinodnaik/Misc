@@ -27,8 +27,7 @@ def read_urls(filename):
   increasing order."""
  
   hasht={}
-  
-  match=re.search(r'\w+_([\w\.]+)',filename)
+    match=re.search(r'\w+_([\w\.]+)',filename)
   if match:
     server=match.group(1)
   else:
@@ -70,22 +69,22 @@ def download_images(img_urls, dest_dir):
     print e
     if e.errno != errno.EEXIST:
       raise
-  i=0
+  idx=0
   fp=open(dest_dir+"/index.html",'w+')
   fp.write("\n".join(["<verbatim>","<html>","<body>"]))
   path=os.path.abspath(dest_dir)
   buffer=""
   
   for url in img_urls:
-    print "Downloading the image img"+str(i)
+    print "Downloading the image img"+str(idx)
     try:
-      urllib.urlretrieve("http://"+url,dest_dir+'/img'+str(i))
+      urllib.urlretrieve("http://"+url,dest_dir+'/img'+str(idx))
     except Exception as e:
       print e
-      i+=1
+      idx+=1
       continue
-    buffer+="<img src="+path+'/img'+str(i)+'>'
-    i+=1
+    buffer+="<img src="+path+'/img'+str(idx)+'>'
+    idx+=1
     
   fp.write(buffer+"\n")
   fp.write("\n".join(["</body>","</html>"]))
