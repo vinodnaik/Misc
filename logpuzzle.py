@@ -25,7 +25,7 @@ def read_urls(filename):
   extracting the hostname from the filename itself.
   Screens out duplicate urls and returns the urls sorted into
   increasing order."""
-  # +++your code here+++
+ 
   hasht={}
   
   match=re.search(r'\w+_([\w\.]+)',filename)
@@ -63,7 +63,7 @@ def download_images(img_urls, dest_dir):
   with an img tag to show each local image file.
   Creates the directory if necessary.
   """
-  # +++your code here+++
+  
   try:
     os.mkdir(dest_dir)
   except Exception as e:
