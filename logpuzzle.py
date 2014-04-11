@@ -27,7 +27,7 @@ def read_urls(filename):
   increasing order."""
  
   hasht={}
-    match=re.search(r'\w+_([\w\.]+)',filename)
+  match=re.search(r'\w+_([\w\.]+)',filename)
   if match:
     server=match.group(1)
   else:
