@@ -9,10 +9,15 @@ import logging
 from candidate import candidate_info
 #from logconf import Logger
 import time
+import os
 
 def extract(urls):
     logger=logging.getLogger(__name__)
-    log_file='extract'+str(time.time()).split('.')[0]+'.log'
+
+    if not os.path.exists("logs"):
+        os.makedirs("logs")
+        
+    log_file='logs/extract'+str(time.time()).split('.')[0]+'.log'
     fh=logging.FileHandler(log_file)
     #logging.basicConfig()
     logger.addHandler(fh)
@@ -59,7 +64,7 @@ def extract(urls):
              #   namelist=link['title']
             #except Exception as e:
              #   logger.error("
-            chash=candidate_info(wiki)
+            chash=candidate_info(wiki,fh)
             if chash:
                 candidate_list.append(chash)
             chash=None
