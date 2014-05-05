@@ -28,7 +28,8 @@ def candidate_info(link,fh=None):
         logger.exception("Could not open %s",link)
         #logger.exception()
         return
-
+    
+    logger.info("Successfully opened %s",link)
     #Cook a soup
     soup=BeautifulSoup(u.read())
 
@@ -37,9 +38,10 @@ def candidate_info(link,fh=None):
     try:
         table=soup.find('table',attrs={'class':'infobox vcard'}) or soup.find('table',attrs={'class':'infobox biography vcard'})
     except Exception as e:
-        log.exception("Could not find infobox vcard for %s",link)
+        logger.exception("Could not find infobox vcard for %s",link)
         return
 
+    logger.info("Successfully opened infobox vcard for %s",link)
     #code to capture the candidate name which is associated with the html element fn
     name_soup=None
     name=None
@@ -57,6 +59,7 @@ def candidate_info(link,fh=None):
             #logger.error(nm)
             #If extracting from the web page fails, extract from the link
             name=link.split('/')[-1].replace('_',' ')
+            logger.info("Successfully extracted candidate name %s",name)
             cand_info['name']=name
 
     #Extract age which we can find in the html element: noprint ForceAgeToShow
@@ -69,6 +72,7 @@ def candidate_info(link,fh=None):
 
     #try encoding the age from unicode
     if age_soup:
+        logger.info("Successfully extracted age soup from soup")
         try:
             age=age_soup.text.encode('ascii','ignore')
         except Exception as ag:
@@ -90,22 +94,21 @@ def candidate_info(link,fh=None):
         rows=table.find_all('th')
     except Exception as e:
         logger.exception("Could not find the 'th' element for the candidate %s",name)
-        #logger.exception()
-        
+            
     if rows:
         for row in rows:           #table.find_all('th'):
             if row.text=='Political party':
                 try:
                     cand_info['Political party']= row.parent.text.encode('ascii','ignore').split('\n')[2]
+                    logger.info("Successfully extracted party name for %s",name)
                 except Exception as e:
                     logger.exception("Could not find political party for %s",link)
-                    #logger.exception()
             elif row.text=='Constituency':
                 try:
                     cand_info['Constituency']= row.parent.text.encode('ascii','ignore').split('\n')[2]
+                    logger.info("Successfully extracted constituency for %s",name)
                 except Exception as e:
                     logger.exception("Could not find constituency for %s",link)
-                    #logger.exception()
   
     return cand_info
     

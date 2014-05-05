@@ -60,10 +60,6 @@ def extract(urls):
         for link in uls:
             wiki="http://en.wikipedia.org"+link['href']
             logger.info("Extracted url is %s",wiki)
-            #try:
-             #   namelist=link['title']
-            #except Exception as e:
-             #   logger.error("
             chash=candidate_info(wiki,fh)
             if chash:
                 candidate_list.append(chash)
@@ -85,10 +81,14 @@ def main():
 
     #cinfo=[]
     cinfo=extract(args)
+    i=0
+    f=open("output.txt",'w+')
     for cand in cinfo:
         for k,v in cand.items():
-            print k,v
-        
+            f.write(k+"---->"+v)
+            i+=1
+    f.write("\n"+str(i))
+    f.close()
 if __name__=='__main__':
     main()
     
