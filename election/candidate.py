@@ -1,12 +1,8 @@
 import urllib2
-import sys
-#import string
 from bs4 import BeautifulSoup
 import re
 import logging
-import time
-import os
-import logconf
+
 logger = logging.getLogger(__name__)
 
 
@@ -16,9 +12,9 @@ def candidate_info(link):
     #code to open the link
     try:
         u = urllib2.urlopen(link)
-    except Exception as e:
+    except urllib2.URLError:
         logger.exception("Could not open %s", link)
-        return
+        return None
     logger.info("Successfully opened %s", link)
 
     #Cook a soup
@@ -58,7 +54,6 @@ def candidate_info(link):
     age = None
     age_soup = table.find('span', {"class": "noprint ForceAgeToShow"})
     if age_soup:
-        logger.info("Successfully found age information for the candidate")
         logger.info("Successfully extracted age soup from soup")
         #try encoding the age from unicode
         try:
@@ -82,16 +77,22 @@ def candidate_info(link):
     rows = table.find_all('th')
 
     if rows:
-        for row in rows:           #table.find_all('th'):
+        for row in rows:
             if row.text == 'Political party':
-                cand_info['Political party'] = row.parent.text.encode('ascii', 'ignore').split('\n')[2]
+                cand_info['party'] = row.parent.text.encode('ascii', 'ignore').split('\n')[2]
                 logger.info("Successfully extracted party name for %s", name)
-            else:
-                logger.error("Could not find political party for %s", link)
             if row.text == 'Constituency':
-                cand_info['Constituency'] = row.parent.text.encode('ascii', 'ignore').split('\n')[2]
+                cand_info['constituency'] = row.parent.text.encode('ascii', 'ignore').split('\n')[2]
                 logger.info("Successfully extracted constituency for %s", name)
-            else:
-                logger.exception("Could not find constituency for %s", link)
-  
+
+    try:
+        cand_info['party']
+    except (NameError, KeyError):
+        logger.error("Party details are absent for %s", cand_info['name'])
+    try:
+        cand_info['constituency']
+    except (NameError, KeyError):
+        logger.error("Constituency details are absent for %s", cand_info['name'])
+
+
     return cand_info
