@@ -1,7 +1,8 @@
+#Dummy file. not used.
+#
 # #!/usr/bin/env python
 #
 # import logging
-#
 #
 # #create logger
 # logger = logging.getLogger("loksabha_members")
